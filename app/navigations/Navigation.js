@@ -56,7 +56,7 @@ function screenOptions(route, color) {
   let iconName;
   switch (route.name) {
     case "peliculas":
-      iconName = "movie-open";
+      iconName = "movie";
       break;
     case "favoritos":
       iconName = "heart-outline";
