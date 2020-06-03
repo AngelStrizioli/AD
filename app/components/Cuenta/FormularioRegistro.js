@@ -1,18 +1,41 @@
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
-import { Input, Icon, Button } from "react-native-elements";
-//import { withNavigation } from "react-navigation";
+import { MaterialIcons,Feather } from '@expo/vector-icons';
+import { Input, Button } from "react-native-elements";
+import {validarEmail} from "../../utils/ValidacionMail"
+import {size,isEmpty} from "lodash"
 
-export default function FormularioRegistro() {
+export default function FormularioRegistro(props) {
+  const {toastRef}=props;
   const [hidePass, setHidePass] = useState(false);
   const [hidePass2, setHidePass2] = useState(false);
   const [data, setData] = useState(valoresData);
 
   const onSubmit = () => {
-    console.log(data);
+   if(isEmpty(data.email)||isEmpty(data.password)||isEmpty(data.password2)){
+     toastRef.current.show("Todos los campos son obligatorios")
+   }
+   else{
+     if(validarEmail(data.email)){
+      toastRef.current.show("El email no es correcto")
+     }
+     else{
+       if(data.password!==data.password2){
+        toastRef.current.show("La contrasena deben ser igaules")
+       }
+       else{
+        if(size(data.password)<6){
+          toastRef.current.show("La contrasena debe tener 6 caracteres")
+        }
+        else{
+          toastRef.current.show("Usuario anadido correctamente"); // aca es donde iria que agregarlo a la 
+        }
+       }
+     }
+   }
   };
   const onChange = (e, type) => {
-    // setData({ [type]: e.nativeEvent.text });
+
     setData({ ...data, [type]: e.nativeEvent.text });
   };
 
@@ -23,11 +46,7 @@ export default function FormularioRegistro() {
         containerStyle={styles.inputForm}
         onChange={(e) => onChange(e, "email")} // funcion que hace que se actualice el estado
         rightIcon={
-          <Icon
-            type="material-community"
-            name="at"
-            iconStyle={styles.iconRight}
-          />
+       <MaterialIcons name="mail-outline" size={30}  iconStyle={styles.iconRight} />
         }
       />
       <Input
@@ -37,12 +56,8 @@ export default function FormularioRegistro() {
         containerStyle={styles.inputForm}
         onChange={(e) => onChange(e, "password")}
         rightIcon={
-          <Icon
-            type="material-community"
-            name={hidePass ? "eye-outline" : "eye-off-outline"} //este es un if , dependiendo el estado pone un icono o el otro
-            iconStyle={styles.iconRight}
-            onPress={() => setHidePass(!hidePass)}
-          />
+
+          <Feather  name={hidePass ? "eye" : "eye-off"} size={30} color="black" iconStyle={styles.iconRight}  onPress={() => setHidePass(!hidePass)}/>
         }
       />
       <Input
@@ -52,12 +67,8 @@ export default function FormularioRegistro() {
         containerStyle={styles.inputForm}
         onChange={(e) => onChange(e, "password2")}
         rightIcon={
-          <Icon
-            type="material-community"
-            name={hidePass2 ? "eye-outline" : "eye-off-outline"} //este es un if , dependiendo el estado pone un icono o el otro
-            iconStyle={styles.iconRight}
-            onPress={() => setHidePass2(!hidePass2)}
-          />
+
+          <Feather  name={hidePass2 ? "eye" : "eye-off"} size={30} color="black" iconStyle={styles.iconRight}  onPress={() => setHidePass(!hidePass2)}/>
         }
       />
       <Button
