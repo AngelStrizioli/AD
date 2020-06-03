@@ -7,6 +7,7 @@ import FavoritosStack from "./FavoritosStack";
 import TopPeliculasStack from "./TopPeliculasStack";
 import BusquedaStack from "./BusquedaStack";
 import CuentaStack from "./CuentaStack";
+import PaginaPeliculaStack from "./PaginaPeliculaStack"
 
 const Tab = createBottomTabNavigator();
 export default function Navigation() {
@@ -26,6 +27,11 @@ export default function Navigation() {
           name="peliculas"
           component={PeliculasStack}
           options={{ title: "Peliculas" }}
+        />
+        <Tab.Screen
+          name="Pagina peliculas/series"
+          component={PaginaPeliculaStack}
+          options={{ title: "Pagina peliculas/series" }}
         />
         <Tab.Screen
           name="favoritos"
