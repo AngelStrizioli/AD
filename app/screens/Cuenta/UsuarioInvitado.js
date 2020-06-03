@@ -4,7 +4,6 @@ import { Button } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
 export default function UsuarioInvitado() {
   const navigation = useNavigation();
-  console.log(navigation);
   return (
     <ScrollView style={styles.viewBody} centerContent={true}>
       <Image

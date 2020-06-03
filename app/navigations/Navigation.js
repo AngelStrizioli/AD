@@ -1,8 +1,7 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Icon } from "react-native-elements";
-
+import { MaterialIcons } from '@expo/vector-icons'; 
 import PeliculasStack from "./PeliculasStack";
 import FavoritosStack from "./FavoritosStack";
 import TopPeliculasStack from "./TopPeliculasStack";
@@ -58,22 +57,22 @@ function screenOptions(route, color) {
     case "peliculas":
       iconName = "movie";
       break;
-    case "favoritos":
-      iconName = "heart-outline";
-      break;
-    case "topPeliculas":
-      iconName = "star-outline";
+   case "favoritos":
+      iconName = "favorite-border";
+         break;
+  case "topPeliculas":
+      iconName = "format-list-numbered";
       break;
     case "busqueda":
-      iconName = "magnify";
-      break;
+     iconName = "search";
+     break;
     case "cuenta":
-      iconName = "account";
-      break;
-    default:
-      break;
+    iconName = "person";
+    break;
+    
   }
   return (
-    <Icon type="material-community" name={iconName} size={22} color={color} />
+   // <Icon type="material-community" name={iconName} size={22} color={color} />
+   <MaterialIcons name={iconName} size={22} color={color} />
   );
 }

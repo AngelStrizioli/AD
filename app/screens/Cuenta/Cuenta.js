@@ -8,7 +8,7 @@ export default function Cuenta() {
   useEffect(() => {
     // aca es donde iria para ver si esta logueado o no
     // !user ? setLogin(false) : setLogin(true);
-    setLogin(false); //hardcodeado para ver si anda si el login es true,false,o null(cargando)
+    setLogin(true); //hardcodeado para ver si anda si el login es true,false,o null(cargando)
   }, []);
   if (login === null) {
     // en tiempo de carga

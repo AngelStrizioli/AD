@@ -9,7 +9,7 @@ export default function CuentaStack() {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="busqueda"
+        name="cuenta"
         component={Cuenta}
         options={{ title: "Mi cuenta " }}
       />
