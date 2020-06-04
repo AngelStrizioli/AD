@@ -8,13 +8,14 @@ import TopPeliculasStack from "./TopPeliculasStack";
 import BusquedaStack from "./BusquedaStack";
 import CuentaStack from "./CuentaStack";
 import PaginaPeliculaStack from "./PaginaPeliculaStack"
+import HomeScreenStack from "./HomeScreenStack";
 
 const Tab = createBottomTabNavigator();
 export default function Navigation() {
   return (
     <NavigationContainer>
       <Tab.Navigator
-        initialRouteName="peliculas" //esto es para que empiece en la cuenta, si quiero cambiarlo le pongo el name del Tab.Screeb
+        initialRouteName="Home" //esto es para que empiece en la cuenta, si quiero cambiarlo le pongo el name del Tab.Screeb
         tabBarOptions={{
           inactiveTintColo: "#646464",
           activeTintColor: "#03bcff",
@@ -23,6 +24,11 @@ export default function Navigation() {
           tabBarIcon: ({ color }) => screenOptions(route, color),
         })}
       >
+        <Tab.Screen
+          name="Home"
+          component={HomeScreenStack}
+          options={{ title: "Home" }}
+        />
         <Tab.Screen
           name="peliculas"
           component={PeliculasStack}
@@ -33,6 +39,8 @@ export default function Navigation() {
           component={PaginaPeliculaStack}
           options={{ title: "Pagina peliculas/series" }}
         />
+        
+        {/*
         <Tab.Screen
           name="favoritos"
           component={FavoritosStack}
@@ -47,7 +55,7 @@ export default function Navigation() {
           name="busqueda"
           component={BusquedaStack}
           options={{ title: "Busqueda" }}
-        />
+        /> */}
         <Tab.Screen
           name="cuenta"
           component={CuentaStack}
@@ -63,15 +71,12 @@ function screenOptions(route, color) {
     case "peliculas":
       iconName = "movie";
       break;
-   case "favoritos":
-      iconName = "favorite-border";
+   case "Home":
+      iconName = "home";
          break;
-  case "topPeliculas":
-      iconName = "format-list-numbered";
+  case "Pagina peliculas/series":
+      iconName = "movie";
       break;
-    case "busqueda":
-     iconName = "search";
-     break;
     case "cuenta":
     iconName = "person";
     break;
