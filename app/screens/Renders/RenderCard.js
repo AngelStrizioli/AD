@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import { View, Text, StyleSheet, FlatList, Image, TouchableHighlight } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
-import Navigation from "../../navigations/Navigation";
 
 const datos = [
   {
@@ -59,36 +58,29 @@ function Separator() {
    return <View style={styles.separator} />;
  }
 
-function render(datos){
+function Render(datos){
+   const navigation = useNavigation()
    return(
-      <TouchableOpacity onPress={() => Navigation.navigate('pagina')}>
-         <Image style={{width:150, height: 200}} source={{uri: datos.image}} />
-      </TouchableOpacity>
+      <TouchableHighlight onPress={() => navigation.navigate('pagina')}>
+         <Image style={{width:150, height: 200}} source={{uri: datos.item.image}} />
+      </TouchableHighlight>
     )
 }
 
 
-class RenderCard extends Component {
+export default function RenderCard () {
   
-  _renderItem(item){
-    return(
-      <TouchableOpacity onPress={() => alert('todavia no hay pagina')}>
-         <Image style={{width:150, height: 200}} source={{uri: item.image}} />
-      </TouchableOpacity>
-    )
-  } 
-  
-  render(){
     return (
-      <View style={{flex:1}}> 
+      <View style={{flex:1, margin: '0.5%'}}> 
          <View>
             <Text style={styles.text}> Mi Lista </Text>
             <Separator />
             <FlatList 
                horizontal={true}
-               ItemSeparatorComponent={() => <View style={{width: 8}} />}
-               renderItem={({item}) => this._renderItem(item)}
+               ItemSeparatorComponent={() => <View style={{width: 5}} />}
                data={datos}
+               keyExtractor={item => `${item.key}`}
+               renderItem= {({item}) => <Render item={item}/>}               
             />
          </View>
          <View>
@@ -96,26 +88,26 @@ class RenderCard extends Component {
             <Separator />
             <FlatList 
                horizontal={true}
-               ItemSeparatorComponent={() => <View style={{width: 8}} />}
-               renderItem={({item}) => this._renderItem(item)}
+               ItemSeparatorComponent={() => <View style={{width: 5}} />}
                data={datos2}
+               renderItem= {({item}) => <Render item={item}/>}
+               keyExtractor={item => `${item.key}`}
             />
          </View>
       </View>
     )
   }
-}
+
 
 const styles = StyleSheet.create({
    text:{
-      color: '#b3b3b3',
+      color: '#fff3e0',
       fontSize: 22,
       marginTop: 8, 
    },
    separator: {
-      borderBottomColor: 'red',
+      borderBottomColor: '#fff3e0',
       borderBottomWidth: 3,
   },
 })
 
-export default RenderCard

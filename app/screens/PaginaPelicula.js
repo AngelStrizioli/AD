@@ -18,6 +18,9 @@ import {
 import { FontAwesome } from '@expo/vector-icons';
 import TabViewEpisode from './TabViewEpisode'
 import TextGradient from 'react-native-linear-gradient'
+import { useNavigation } from "@react-navigation/native";
+import { TouchableOpacity } from 'react-native-gesture-handler';
+
 
 const {width, height} = Dimensions.get('window')
 
@@ -25,37 +28,39 @@ function Separator() {
     return <View style={styles.separator} />;
   }
 
-class PaginaPelicula extends Component {
-    constructor(props){
-        super(props)
-        this.state = {
-            // estos state hardcodeados despues los vamos a tener que tomar desde la API
-            name:'Rick and Morty', 
-                sourceImage:'https://es.web.img3.acsta.net/pictures/18/10/31/17/34/2348073.jpg',
-                sourceVideo:'https://www.youtube.com/watch?v=qPDqQDTnJKE',
-                cast:'Justin Roiland, Chris Parnell, Sarah Chalke, Spencer Grammer',
-                description:'La serie sigue las desventuras de un científico, Rick, y su fácilmente influenciable nieto, Morty, quienes pasan el tiempo entre la vida doméstica y los viajes espaciales, temporales e intergalácticos. Roiland es el encargado de darle voz a los dos personajes principales, y la serie también incluye las voces de Chris Parnell, Spencer Grammer y Sarah Chalke.',
-                year:'2013',
-                creator:'Justin Roiland y Dan Harmon',
-                numOfEpisodes:'41',
-                season:'4'
-        
+  
 
-        };
-    }
+export default function PaginaPelicula() {
 
-    render(){
-        console.log(this.state.name)
+        // estos state hardcodeados despues los vamos a tener que tomar desde la API
+        const name = 'Rick and Morty'
+            
+        const sourceImage = 'https://es.web.img3.acsta.net/pictures/18/10/31/17/34/2348073.jpg'
+            
+        const sourceVideo = 'https://www.youtube.com/watch?v=qPDqQDTnJKE'
+            
+        const cast = 'Justin Roiland, Chris Parnell, Sarah Chalke, Spencer Grammer'
+            
+        const description = 'La serie sigue las desventuras de un científico, Rick, y su fácilmente influenciable nieto, Morty, quienes pasan el tiempo entre la vida doméstica y los viajes espaciales, temporales e intergalácticos. Roiland es el encargado de darle voz a los dos personajes principales, y la serie también incluye las voces de Chris Parnell, Spencer Grammer y Sarah Chalke.'
         
+        const year = '2013'
+        
+        const creator = 'Justin Roiland y Dan Harmon'
+            
+        const numOfEpisodes = '41'
+           
+        const season = '4'
+
+        const navigation = useNavigation();
 
         return(
             <ScrollView style={styles.container}>
                 <ImageBackground 
                     style={styles.image} 
-                    source={{uri: this.state.sourceImage }}
+                    source={{uri: sourceImage }}
                 >
                     <View style={styles.buttonPlay}>
-                        <TouchableWithoutFeedback onPress={null}>
+                        <TouchableOpacity onPress={() => navigation.navigate('videoPlayer')} >
                             <Text>
                                 <FontAwesome 
                                     style={styles.iconPlay}
@@ -64,41 +69,45 @@ class PaginaPelicula extends Component {
                                     color='white'
                                 /> 
                             </Text>
-                        </TouchableWithoutFeedback>
+                        </TouchableOpacity>
                     </View>
                     <View style={styles.nameContainer}>
-                        <Text style={[styles.text, styles.titleShow]}>{this.state.name}</Text>
+                        <Text style={[styles.text, styles.titleShow]}>{name}</Text>
                     </View>
                 </ImageBackground>
                 <View style={styles.descriptionContainer}>
                     <View style={styles.subtitle}>
-                        <Text style={[styles.text, styles.subtitleText]}>{this.state.year}</Text>
-                        <Text style={[styles.text, styles.subtitleText]}>{this.state.numOfEpisodes}</Text>
-                        <Text style={[styles.text, styles.subtitleText]}>{this.state.season} Season</Text>
+                        <Text style={[styles.text, styles.subtitleText]}>{year}</Text>
+                        <Text style={[styles.text, styles.subtitleText]}>{numOfEpisodes}</Text>
+                        <Text style={[styles.text, styles.subtitleText]}>{season} Season</Text>
                     </View>
                     <View style={styles.description}>
-                        <Text style={[styles.text, styles.light]}>{this.state.description}</Text>
+                        <Text style={[styles.text, styles.light]}>{description}</Text>
                     </View>
                     <View style={styles.description}>
-                        <Text style={styles.text}>Elenco: {this.state.cast}</Text>
-                        <Text style={styles.text}>Creadores: {this.state.creator}</Text>
+                        <Text style={styles.text}>Elenco: {cast}</Text>
+                        <Text style={styles.text}>Creadores: {creator}</Text>
                         <View style={styles.shareListIcons}>
                             <View style={styles.myListIcon}>
+                            <TouchableOpacity >
                                 <FontAwesome 
                                     style={styles.listIcon}
                                     name='check'
-                                    color='grey'
+                                    color='white'
                                     size={25}
                                 />
+                                </TouchableOpacity>
                                 <Text style={styles.text}>Mi Lista</Text>
                             </View>
                             <View style={styles.myShareIcon}>
+                            <TouchableOpacity >
                                 <FontAwesome
                                     style={styles.shareIcon}
                                     name='share-square-o'
-                                    color='grey'
+                                    color='white'
                                     size={25}
                                 />
+                            </TouchableOpacity>
                                 <Text style={styles.text}>Compartir</Text>
                             </View>
                         </View>
@@ -109,7 +118,7 @@ class PaginaPelicula extends Component {
             </ScrollView>
         )
     }
-}
+
 
 const styles = StyleSheet.create({
     nameContainer:{
@@ -127,7 +136,7 @@ const styles = StyleSheet.create({
     },
     container:{
         flex: 1,
-        backgroundColor: '#181818' ,
+        backgroundColor: '#009688' ,
     },
     buttonPlay:{
         justifyContent: 'center',
@@ -149,7 +158,7 @@ const styles = StyleSheet.create({
         marginRight:20,
     },
     text:{
-        color:'#b3b3b3',
+        color:'white',
         fontSize: 16,
         textAlign: 'justify'
     },
@@ -188,7 +197,7 @@ const styles = StyleSheet.create({
     },
     separator: {
         marginVertical: 2,
-        borderBottomColor: 'red',
+        borderBottomColor: 'white',
         borderBottomWidth: 3,
     },
    
@@ -196,6 +205,5 @@ const styles = StyleSheet.create({
 
 })
 
-export default PaginaPelicula
 
 

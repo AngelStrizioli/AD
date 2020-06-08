@@ -13,6 +13,7 @@
     "@react-navigation/native": "^5.5.0",
     "@react-navigation/stack": "^5.4.1",
     "expo": "^37.0.12",
+    "expo-av": "^8.1.0",
     "lodash": "^4.17.15",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
@@ -26,9 +27,12 @@
     "react-native-reanimated": "^1.7.0",
     "react-native-safe-area-context": "0.7.3",
     "react-native-screens": "~2.2.0",
+    "react-native-swiper": "^1.6.0",
     "react-native-tab-view": "^2.14.2",
     "react-native-vector-icons": "^6.6.0",
-    "react-native-web": "~0.11.7"
+    "react-native-video-controls": "https://github.com/mariodev12/react-native-video-controls/tarball/master",
+    "react-native-web": "~0.11.7",
+    "react-native-webview": "^10.2.3"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",

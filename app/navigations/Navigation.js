@@ -2,13 +2,12 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialIcons } from '@expo/vector-icons'; 
-import PeliculasStack from "./PeliculasStack";
 import FavoritosStack from "./FavoritosStack";
 import TopPeliculasStack from "./TopPeliculasStack";
 import BusquedaStack from "./BusquedaStack";
 import CuentaStack from "./CuentaStack";
-import PaginaPeliculaStack from "./PaginaPeliculaStack"
 import HomeScreenStack from "./HomeScreenStack";
+import VideoPlayerView from "../screens/Renders/VideoPlayerView";
 
 const Tab = createBottomTabNavigator();
 export default function Navigation() {
@@ -18,7 +17,7 @@ export default function Navigation() {
         initialRouteName="Home" //esto es para que empiece en la cuenta, si quiero cambiarlo le pongo el name del Tab.Screeb
         tabBarOptions={{
           inactiveTintColo: "#646464",
-          activeTintColor: "#03bcff",
+          activeTintColor: "#009688",
         }}
         screenOptions={({ route }) => ({
           tabBarIcon: ({ color }) => screenOptions(route, color),
@@ -27,35 +26,8 @@ export default function Navigation() {
         <Tab.Screen
           name="Home"
           component={HomeScreenStack}
-          options={{ title: "Home" }}
+          options={{ title: "Inicio" }}
         />
-        <Tab.Screen
-          name="peliculas"
-          component={PeliculasStack}
-          options={{ title: "Peliculas" }}
-        />
-        <Tab.Screen
-          name="Pagina peliculas/series"
-          component={PaginaPeliculaStack}
-          options={{ title: "Pagina peliculas/series" }}
-        />
-        
-        {/*
-        <Tab.Screen
-          name="favoritos"
-          component={FavoritosStack}
-          options={{ title: "Favoritas" }}
-        />
-        <Tab.Screen
-          name="topPeliculas"
-          component={TopPeliculasStack}
-          options={{ title: "Top" }}
-        />
-        <Tab.Screen
-          name="busqueda"
-          component={BusquedaStack}
-          options={{ title: "Busqueda" }}
-        /> */}
         <Tab.Screen
           name="cuenta"
           component={CuentaStack}
@@ -68,15 +40,9 @@ export default function Navigation() {
 function screenOptions(route, color) {
   let iconName;
   switch (route.name) {
-    case "peliculas":
-      iconName = "movie";
-      break;
    case "Home":
       iconName = "home";
          break;
-  case "Pagina peliculas/series":
-      iconName = "movie";
-      break;
     case "cuenta":
     iconName = "person";
     break;

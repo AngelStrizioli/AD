@@ -85,7 +85,9 @@ export default class extends Component{
     return(
         <Swiper
           autoplay
-          height={240}
+          height={400}
+          dotColor="transparent"
+          activeDotColor="white"
         >
         {
           this.state.imagesSlider.map((item, i) => <Slider 
