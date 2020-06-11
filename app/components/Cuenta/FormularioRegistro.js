@@ -1,41 +1,56 @@
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
-import { MaterialIcons,Feather } from '@expo/vector-icons';
+import { MaterialIcons, Feather } from "@expo/vector-icons";
 import { Input, Button } from "react-native-elements";
-import {validarEmail} from "../../utils/ValidacionMail"
-import {size,isEmpty} from "lodash"
+import { validarEmail } from "../../utils/ValidacionMail";
+import { size, isEmpty } from "lodash";
+import * as firebase from "firebase";
+import { useNavigation } from "@react-navigation/native";
+import Loading from "../Loading";
 
 export default function FormularioRegistro(props) {
-  const {toastRef}=props;
+  const { toastRef } = props;
   const [hidePass, setHidePass] = useState(false);
   const [hidePass2, setHidePass2] = useState(false);
   const [data, setData] = useState(valoresData);
+  const [loading, setLoading] = useState(false);
+  const navigation = useNavigation();
 
   const onSubmit = () => {
-   if(isEmpty(data.email)||isEmpty(data.password)||isEmpty(data.password2)){
-     toastRef.current.show("Todos los campos son obligatorios")
-   }
-   else{
-     if(validarEmail(data.email)){
-      toastRef.current.show("El email no es correcto")
-     }
-     else{
-       if(data.password!==data.password2){
-        toastRef.current.show("La contrasena deben ser igaules")
-       }
-       else{
-        if(size(data.password)<6){
-          toastRef.current.show("La contrasena debe tener 6 caracteres")
+    if (
+      isEmpty(data.email) ||
+      isEmpty(data.password) ||
+      isEmpty(data.password2)
+    ) {
+      toastRef.current.show("Todos los campos son obligatorios");
+    } else {
+      if (!validarEmail(data.email) == false) {
+        toastRef.current.show("El email no es correcto");
+      } else {
+        if (data.password !== data.password2) {
+          toastRef.current.show("Las contraseña deben ser iguales");
+        } else {
+          if (size(data.password) < 6) {
+            toastRef.current.show("La contraseña debe tener 6 caracteres");
+          } else {
+            setLoading(true);
+            firebase
+              .auth()
+              .createUserWithEmailAndPassword(data.email, data.password)
+              .then(() => {
+                setLoading(false);
+                navigation.navigate("cuenta");
+              })
+              .catch(function (error) {
+                setLoading(false);
+                toastRef.current.show("" + error);
+              });
+          }
         }
-        else{
-          toastRef.current.show("Usuario anadido correctamente"); // aca es donde iria que agregarlo a la 
-        }
-       }
-     }
-   }
+      }
+    }
   };
   const onChange = (e, type) => {
-
     setData({ ...data, [type]: e.nativeEvent.text });
   };
 
@@ -46,7 +61,11 @@ export default function FormularioRegistro(props) {
         containerStyle={styles.inputForm}
         onChange={(e) => onChange(e, "email")} // funcion que hace que se actualice el estado
         rightIcon={
-       <MaterialIcons name="mail-outline" size={30}  iconStyle={styles.iconRight} />
+          <MaterialIcons
+            name="mail-outline"
+            size={30}
+            iconStyle={styles.iconRight}
+          />
         }
       />
       <Input
@@ -56,8 +75,13 @@ export default function FormularioRegistro(props) {
         containerStyle={styles.inputForm}
         onChange={(e) => onChange(e, "password")}
         rightIcon={
-
-          <Feather  name={hidePass ? "eye" : "eye-off"} size={30} color="black" iconStyle={styles.iconRight}  onPress={() => setHidePass(!hidePass)}/>
+          <Feather
+            name={hidePass ? "eye" : "eye-off"}
+            size={30}
+            color="black"
+            iconStyle={styles.iconRight}
+            onPress={() => setHidePass(!hidePass)}
+          />
         }
       />
       <Input
@@ -67,8 +91,13 @@ export default function FormularioRegistro(props) {
         containerStyle={styles.inputForm}
         onChange={(e) => onChange(e, "password2")}
         rightIcon={
-
-          <Feather  name={hidePass2 ? "eye" : "eye-off"} size={30} color="black" iconStyle={styles.iconRight}  onPress={() => setHidePass(!hidePass2)}/>
+          <Feather
+            name={hidePass2 ? "eye" : "eye-off"}
+            size={30}
+            color="black"
+            iconStyle={styles.iconRight}
+            onPress={() => setHidePass2(!hidePass2)}
+          />
         }
       />
       <Button
@@ -77,6 +106,7 @@ export default function FormularioRegistro(props) {
         buttonStyle={styles.btnRegister}
         onPress={onSubmit}
       />
+      <Loading isVisible={loading} text="Creando cuenta" />
     </View>
   );
 }
