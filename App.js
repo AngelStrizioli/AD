@@ -7,3 +7,4 @@ YellowBox.ignoreWarnings(["Setting a timer"]);
 export default function App() {
   return <Navigation></Navigation>;
 }
+}

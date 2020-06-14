@@ -11,7 +11,6 @@ export default function Cuenta() {
       !user ? setLogin(false) : setLogin(true);
     });
 
-    // setLogin(true); //hardcodeado para ver si anda si el login es true,false,o null(cargando)
   }, []);
   if (login === null) {
     // en tiempo de carga
