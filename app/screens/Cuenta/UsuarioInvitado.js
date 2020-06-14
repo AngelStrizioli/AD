@@ -20,7 +20,7 @@ export default function UsuarioInvitado() {
         <Button
           containterStyle={styles.btnContainer}
           buttonStyle={styles.boton}
-          title="Ver tu perfil"
+          title="Iniciar Sesion o Registrarse"
           onPress={() => navigation.navigate("login")}
         />
       </View>
