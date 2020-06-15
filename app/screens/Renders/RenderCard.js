@@ -1,99 +1,81 @@
-import React, {Component} from "react";
-import { View, Text, StyleSheet, FlatList, Image, TouchableHighlight } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import React, {Component, useState, useEffect} from "react";
+import { View, Text, StyleSheet, FlatList, Image, TouchableHighlight, Dimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { getEstrenos } from '../../api/ControllerApi'
+// screen sizing
+const { width, height } = Dimensions.get("window");
+// orientation must fixed
+const SCREEN_WIDTH = width < height ? width : height;
 
-const datos = [
-  {
-    "key":6,
-    "name":"24: Legacy",
-    "image":"https://static.tvmaze.com/uploads/images/medium_portrait/90/225030.jpg"
- },
- {
-    "key":7,
-    "name":"Colony",
-    "image":"https://static.tvmaze.com/uploads/images/medium_portrait/91/229234.jpg"
- },
- {
-    "key":8,
-    "name":"The Walking Dead",
-    "image":"https://static.tvmaze.com/uploads/images/medium_portrait/67/168817.jpg"
- },
- {
-    "key":9,
-    "name":"Taken",
-    "image":"https://static.tvmaze.com/uploads/images/medium_portrait/100/250528.jpg"
- },
- {
-    "key":10,
-    "name":"This is us",
-    "image":"https://static.tvmaze.com/uploads/images/medium_portrait/70/175831.jpg"
- },
-]
+const recipeNumColums = 2;
+// item size
+const RECIPE_ITEM_HEIGHT = 150;
+const RECIPE_ITEM_MARGIN = 20;
 
-const datos2 = [
-   {
-      "key":11,
-      "name":"Superstore",
-      "image":"https://static.tvmaze.com/uploads/images/medium_portrait/69/174909.jpg"
-   },
-   {
-      "key":12,
-      "name":"Lethal Weapon",
-      "image":"https://static.tvmaze.com/uploads/images/medium_portrait/93/234808.jpg"
-   },
-   {
-      "key":13,
-      "name":"The 100",
-      "image":"https://static.tvmaze.com/uploads/images/medium_portrait/94/236401.jpg"
-   },
-   {
-      "key":14,
-      "name":"Homeland",
-      "image":"https://static.tvmaze.com/uploads/images/medium_portrait/101/254425.jpg"
-   }
-]
 
 function Separator() {
    return <View style={styles.separator} />;
  }
 
-function Render(datos){
-   const navigation = useNavigation()
-   return(
-      <TouchableHighlight onPress={() => navigation.navigate('pagina')}>
-         <Image style={{width:150, height: 200}} source={{uri: datos.item.image}} />
-      </TouchableHighlight>
-    )
-}
+export default function RenderCard (props) {
+   const navigation  = useNavigation();
 
+   const [estrenos, setEstrenos] = useState([
+      {
+        id: "",
+        imagen: "",
+        title: "",
+        release: "",
+        overview:"",
+        vote_average:"",
+      },
+    ]);
 
-export default function RenderCard () {
+   useEffect( () => {
+      buscarEstrenos()
+    }, []);
+   
+    buscarEstrenos = async () => {
+      let estrenos = await getEstrenos();
+      setEstrenos(estrenos)
+    };
+  
+ 
   
     return (
       <View style={{flex:1, margin: '0.5%'}}> 
          <View>
-            <Text style={styles.text}> Mi Lista </Text>
+            <Text style={styles.text}> Estrenos </Text>
             <Separator />
             <FlatList 
                horizontal={true}
-               ItemSeparatorComponent={() => <View style={{width: 5}} />}
-               data={datos}
-               keyExtractor={item => `${item.key}`}
-               renderItem= {({item}) => <Render item={item}/>}               
-            />
+               data={estrenos}
+               renderItem={({ item }) => (
+                  <TouchableHighlight
+                    onPress={() => navigation.navigate('pagina',{item})}
+                  >
+                    {item.imagen === "" ? (
+                      <View style={styles.container}>
+                        <Text style={styles.title}>No hay imagen que coincida con su busqueda </Text>
+                      </View>
+                    ) : (
+                      <View style={styles.container}>
+                        <Image
+                          style={styles.photo}
+                          source={{
+                            uri: item.imagen,
+                          }}
+                          resizeMode="contain"
+                        ></Image>
+                        <Text style={styles.title}>{item.title}</Text>
+                      </View>
+                    )}
+                  </TouchableHighlight>
+                )}
+                keyExtractor={(item) => item.id}
+              />         
          </View>
-         <View>
-            <Text style={styles.text}> Series </Text>
-            <Separator />
-            <FlatList 
-               horizontal={true}
-               ItemSeparatorComponent={() => <View style={{width: 5}} />}
-               data={datos2}
-               renderItem= {({item}) => <Render item={item}/>}
-               keyExtractor={item => `${item.key}`}
-            />
-         </View>
+         
       </View>
     )
   }
@@ -101,13 +83,45 @@ export default function RenderCard () {
 
 const styles = StyleSheet.create({
    text:{
-      color: '#fff3e0',
-      fontSize: 22,
-      marginTop: 8, 
+      color: '#009688',
+      fontSize: 24,
+      marginTop: 5, 
+   },
+   container: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      marginLeft: RECIPE_ITEM_MARGIN,
+      marginTop: 20,
+      width:
+        (SCREEN_WIDTH - (recipeNumColums + 1) * RECIPE_ITEM_MARGIN) /
+        recipeNumColums,
+      height: RECIPE_ITEM_HEIGHT + 75,
+      borderColor: "#009688",
+      borderWidth: 0.5,
+      borderRadius: 15,
+    },
+   title:{
+   flex: 1,
+    fontSize: 18,
+    fontWeight: "bold",
+    textAlign:'center',
+    color: "#009688",
+    marginTop: 3,
+    marginRight: 5,
+    marginLeft: 5,
+      
    },
    separator: {
-      borderBottomColor: '#fff3e0',
+      borderBottomColor: '#009688',
       borderBottomWidth: 3,
   },
+  photo: {
+   width:
+     (SCREEN_WIDTH - (recipeNumColums + 1) * RECIPE_ITEM_MARGIN) /
+     recipeNumColums,
+   height: RECIPE_ITEM_HEIGHT + 30,
+   marginTop: 5,
+ },
 })
 

@@ -1,14 +1,13 @@
-import React, {Component} from 'react'
-import {Text, View, Image, Dimensions, StyleSheet} from 'react-native'
+import React, {Component, useState, useEffect} from 'react'
+import {Text, View, Image, Dimensions, TouchableWithoutFeedback} from 'react-native'
 import Swiper from 'react-native-swiper'
+import { getMasVotadas } from '../../api/ControllerApi';
+import { useNavigation } from "@react-navigation/native";
+
 
 const {width} = Dimensions.get('window')
 
-const Slider = props => (
-  <View style={styles.container}>
-    <Image style={styles.image} source={props.uri}/>
-  </View>
-)
+
 
 const datos = [
   {
@@ -65,37 +64,51 @@ const styles = {
   },
   image:{
     flex:1,
-    width: width
+    width: 250,
+    marginLeft:"20%"
   }
 }
 
-export default class extends Component{
-  constructor(props){
-    super(props)
-    this.state={
-      imagesSlider: [
-        require('./img/twd.jpg'),
-        require('./img/suits.jpg')
+export default function Slider () {
+  const navigation  = useNavigation();
 
+  const [masVotadas, setMasVotadas] = useState([
+    {
+      id: "",
+      imagen: "",
+      title: "",
+      release: "",
+      overview:"",
+      vote_average:"",
+    },
+  ]);
 
-      ]
-    }
-  }
-  render(){
+ useEffect( () => {
+    buscarMasVotadas()
+  }, []);
+ 
+  buscarMasVotadas = async () => {
+    let masVotadas = await getMasVotadas();
+    setMasVotadas(masVotadas) 
+  };
+
     return(
+
         <Swiper
           autoplay
-          height={400}
+          height={350}
           dotColor="transparent"
-          activeDotColor="white"
+          activeDotColor="white" 
         >
         {
-          this.state.imagesSlider.map((item, i) => <Slider 
-            uri={item}
-            key={i}
-            />)
+          masVotadas.slice(0,5).map((item, i) => 
+            <View style={styles.container}>
+            <TouchableWithoutFeedback onPress={() => navigation.navigate('pagina',{item})}>
+                <Image style={styles.image} source={{uri:item.imagen}} />
+            </TouchableWithoutFeedback>
+            </View> 
+          )
         }
         </Swiper>
     )
-  }
 }
