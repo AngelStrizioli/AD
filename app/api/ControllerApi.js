@@ -8,6 +8,8 @@ const createData = (item, idArray) => {
     imagen: `${baseURLImg}${item.poster_path}`,
     title: item.title,
     release: item.release_date,
+    overview: item.overview,
+    vote_average: item.vote_average,
   };
 };
 
@@ -36,6 +38,32 @@ export const getEstrenos = async function () {
   console.log(estrenosAMostrar);
   return estrenosAMostrar;
 };
+
+export const getMasVotadas = async function () {
+  //Parametros de conexion
+  const url = "https://api.themoviedb.org/3/movie/top_rated?api_key=";
+  const discover =
+    "&language=en-US&page=1";
+  const apiKEY = "af158ebf42ce4f8e554bcd0ba82df8dc";
+
+  const endpoint = `${url}${apiKEY}${discover}`;
+  console.log('entro')
+  //console.log("Buscando",endpoint);
+  let resultado = await fetch(endpoint);
+  //console.log("resultado",resultado);
+  let rtaApi = await resultado.json();
+  //console.log("respuesta bruta",rtaApi);
+  //Obtengo estrenos
+  const masVotadas = rtaApi.results;
+  //console.log("Resultados", estrenos);
+  //Dar formato a los datos para mostrar en la grilla
+  let masVotadasAMostrar = [];
+  let i;
+  for (i = 0; i < masVotadas.length; i++) {
+    masVotadasAMostrar.push(createData(masVotadas[i], i));
+  }
+  return masVotadasAMostrar;
+}; 
 
 export const find = async function (search) {
   //Parametros de conexion

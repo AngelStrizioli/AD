@@ -29,8 +29,8 @@ export default function TabViewEpisode() {
   const renderTabBar = props => (
     <TabBar
       {...props}
-      indicatorStyle={{ backgroundColor: 'white' , top:0, height:3}}
-      style={{ backgroundColor: 'transparent' }}
+      indicatorStyle={{ backgroundColor: 'black' , top:0, height:3}}
+      style={{ backgroundColor: '#009688' }}
     />
   );
  

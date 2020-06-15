@@ -3,26 +3,19 @@ import {
     View,
     Text,
     StyleSheet,
-    Image,
-    TouchableHighlight,
-    TouchableWithoutFeedback,
     ScrollView,
     Dimensions,
-    Share,
-    Animated,
     ImageBackground,
-    Button,
+    
 } from 'react-native'
-
-
+import { Rating, AirbnbRating } from 'react-native-elements';
 import { FontAwesome } from '@expo/vector-icons';
-import TabViewEpisode from './TabViewEpisode'
-import TextGradient from 'react-native-linear-gradient'
 import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 const {width, height} = Dimensions.get('window')
+
 
 function Separator() {
     return <View style={styles.separator} />;
@@ -30,71 +23,52 @@ function Separator() {
 
   
 
-export default function PaginaPelicula() {
-
-        // estos state hardcodeados despues los vamos a tener que tomar desde la API
-        const name = 'Rick and Morty'
-            
-        const sourceImage = 'https://es.web.img3.acsta.net/pictures/18/10/31/17/34/2348073.jpg'
-            
-        const sourceVideo = 'https://www.youtube.com/watch?v=qPDqQDTnJKE'
-            
-        const cast = 'Justin Roiland, Chris Parnell, Sarah Chalke, Spencer Grammer'
-            
-        const description = 'La serie sigue las desventuras de un científico, Rick, y su fácilmente influenciable nieto, Morty, quienes pasan el tiempo entre la vida doméstica y los viajes espaciales, temporales e intergalácticos. Roiland es el encargado de darle voz a los dos personajes principales, y la serie también incluye las voces de Chris Parnell, Spencer Grammer y Sarah Chalke.'
-        
-        const year = '2013'
-        
-        const creator = 'Justin Roiland y Dan Harmon'
-            
-        const numOfEpisodes = '41'
-           
-        const season = '4'
+export default function PaginaPelicula(props) {
 
         const navigation = useNavigation();
+        const item = props.route.params.item
+     
 
         return(
             <ScrollView style={styles.container}>
                 <ImageBackground 
                     style={styles.image} 
-                    source={{uri: sourceImage }}
+                    source={{uri: item.imagen }}
                 >
                     <View style={styles.buttonPlay}>
-                        <TouchableOpacity onPress={() => navigation.navigate('videoPlayer')} >
+                        <TouchableOpacity onPress={() => navigation.navigate('videoPlayer', {item})} >
                             <Text>
                                 <FontAwesome 
                                     style={styles.iconPlay}
                                     name='play-circle'
-                                    size={90}
+                                    size={60}
                                     color='white'
                                 /> 
                             </Text>
                         </TouchableOpacity>
                     </View>
-                    <View style={styles.nameContainer}>
-                        <Text style={[styles.text, styles.titleShow]}>{name}</Text>
-                    </View>
+                    
                 </ImageBackground>
+                    <View style={styles.nameContainer}>
+                        <Text style={[styles.text, styles.titleShow]}>{item.title}</Text>
+                    </View>
+                <Rating type='custom'  fractions={1} startingValue={item.vote_average / 2 } imageSize={20} ratingTextColor='#009688' /> 
                 <View style={styles.descriptionContainer}>
                     <View style={styles.subtitle}>
-                        <Text style={[styles.text, styles.subtitleText]}>{year}</Text>
-                        <Text style={[styles.text, styles.subtitleText]}>{numOfEpisodes}</Text>
-                        <Text style={[styles.text, styles.subtitleText]}>{season} Season</Text>
+                        <Text style={[styles.text, styles.subtitleText]}>{item.release}</Text>
                     </View>
                     <View style={styles.description}>
-                        <Text style={[styles.text, styles.light]}>{description}</Text>
+                        <Text style={[styles.text, styles.light]}>{item.overview}</Text>
                     </View>
                     <View style={styles.description}>
-                        <Text style={styles.text}>Elenco: {cast}</Text>
-                        <Text style={styles.text}>Creadores: {creator}</Text>
                         <View style={styles.shareListIcons}>
                             <View style={styles.myListIcon}>
                             <TouchableOpacity >
                                 <FontAwesome 
                                     style={styles.listIcon}
                                     name='check'
-                                    color='white'
-                                    size={25}
+                                    color='#009688'
+                                    size={35}
                                 />
                                 </TouchableOpacity>
                                 <Text style={styles.text}>Mi Lista</Text>
@@ -104,8 +78,8 @@ export default function PaginaPelicula() {
                                 <FontAwesome
                                     style={styles.shareIcon}
                                     name='share-square-o'
-                                    color='white'
-                                    size={25}
+                                    color='#009688'
+                                    size={35}
                                 />
                             </TouchableOpacity>
                                 <Text style={styles.text}>Compartir</Text>
@@ -113,7 +87,7 @@ export default function PaginaPelicula() {
                         </View>
                     </View>
                 </View>
-                <TabViewEpisode />
+                {/*<TabViewEpisode />*/}
                 
             </ScrollView>
         )
@@ -125,18 +99,20 @@ const styles = StyleSheet.create({
         backgroundColor:'transparent'
     },
     titleShow:{
-        fontSize: 35,
+        fontSize: 24,
         paddingLeft:10,
         marginBottom:5,
-        color:'white'
+        marginTop: 8,
+        color:'#009688'
     },
     image:{
-        width: width,
-        height:300,
-    },
+        width: 200,
+        height: 300,
+        marginLeft: '27%'
+     },
     container:{
         flex: 1,
-        backgroundColor: '#009688' ,
+        backgroundColor: 'white' ,
     },
     buttonPlay:{
         justifyContent: 'center',
@@ -158,19 +134,20 @@ const styles = StyleSheet.create({
         marginRight:20,
     },
     text:{
-        color:'white',
+        color:'#009688',
         fontSize: 16,
         textAlign: 'justify'
     },
     shareListIcons:{
         flexDirection: 'row',
         marginVertical: 30,
+        marginLeft:'30%'
     },
     listIcon:{
-        height: 25,
+        height: 35,
     },
     shareIcon:{
-        height: 25,
+        height: 35,
     },
     myListIcon:{
         flexDirection:'column',
@@ -197,7 +174,7 @@ const styles = StyleSheet.create({
     },
     separator: {
         marginVertical: 2,
-        borderBottomColor: 'white',
+        borderBottomColor: '#009688',
         borderBottomWidth: 3,
     },
    

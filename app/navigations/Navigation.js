@@ -2,12 +2,9 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialIcons } from '@expo/vector-icons'; 
-import FavoritosStack from "./FavoritosStack";
-import TopPeliculasStack from "./TopPeliculasStack";
 import BusquedaStack from "./BusquedaStack";
 import CuentaStack from "./CuentaStack";
 import HomeScreenStack from "./HomeScreenStack";
-import VideoPlayerView from "../screens/Renders/VideoPlayerView";
 
 const Tab = createBottomTabNavigator();
 export default function Navigation() {
@@ -29,6 +26,11 @@ export default function Navigation() {
           options={{ title: "Inicio" }}
         />
         <Tab.Screen
+          name="busqueda"
+          component={BusquedaStack}
+          options={{ title: "Busqueda" }}
+          />
+        <Tab.Screen
           name="cuenta"
           component={CuentaStack}
           options={{ title: "Cuenta" }}
@@ -46,7 +48,9 @@ function screenOptions(route, color) {
     case "cuenta":
     iconName = "person";
     break;
-    
+    case "busqueda":
+    iconName = "search";
+    break;
   }
   return (
    // <Icon type="material-community" name={iconName} size={22} color={color} />

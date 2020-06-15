@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import RenderCard from "./Renders/RenderCard";
-import Slide from './Renders/Slider'
+import Slider from './Renders/Slider'
 
 class HomeScreen extends Component {
   render(){
     return(
       <ScrollView style={styles.container}>
-        <Slide />
+        <Slider />
         <RenderCard />
       </ScrollView>
     )
@@ -17,7 +17,7 @@ class HomeScreen extends Component {
 const styles = StyleSheet.create({
   container:{
     flex: 1,
-    backgroundColor:'#009688',
+    backgroundColor:'white',
     marginTop: 0,
   },
  
