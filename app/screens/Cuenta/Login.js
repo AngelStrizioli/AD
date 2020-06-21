@@ -1,12 +1,12 @@
-import React,{useRef} from "react";
+import React, { useRef } from "react";
 import { StyleSheet, View, Text, ScrollView, Image } from "react-native";
 import { Divider } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
-import FormularioLogin from "../../components/Cuenta/FormularioLogin"
-import Toast from "react-native-easy-toast"
+import FormularioLogin from "../../components/Cuenta/FormularioLogin";
+import Toast from "react-native-easy-toast";
 
 export default function Login() {
-  const toastRef=useRef();
+  const toastRef = useRef();
   return (
     <ScrollView>
       <Image
@@ -15,12 +15,20 @@ export default function Login() {
         style={styles.imagen}
       />
       <View style={styles.viewCont}>
-        <FormularioLogin toastRef={toastRef}>  </FormularioLogin>
+        <FormularioLogin toastRef={toastRef}> </FormularioLogin>
         <CrearCuenta></CrearCuenta>
       </View>
       <Divider style={styles.divider} />
-      {/* <Text>Social Login</Text> */} 
-      <Toast ref={toastRef} position='top' opacity={1.5} style={{backgroundColor:'blue'}} positionValue={50} fadeInDuration={1500} fadeOutDuration={1000} />
+      {/* <Text>Social Login</Text> */}
+      <Toast
+        ref={toastRef}
+        position="top"
+        opacity={1.5}
+        style={{ backgroundColor: "blue" }}
+        positionValue={50}
+        fadeInDuration={1500}
+        fadeOutDuration={1000}
+      />
     </ScrollView>
   );
 }
@@ -34,7 +42,7 @@ function CrearCuenta() {
         style={styles.textoBoton}
         onPress={() => navigation.navigate("registro")}
       >
-        {" "} {" "} {" "}
+        {" "}
         Registrate
       </Text>
     </Text>
@@ -56,12 +64,12 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   textoBoton: {
-    color: "#03bcff",
+    color: "#009688",
     fontWeight: "bold",
-    fontSize:20
+    fontSize: 20,
   },
   divider: {
     margin: 40,
-    backgroundColor: "#03bcff",
+    backgroundColor: "#009688",
   },
 });
