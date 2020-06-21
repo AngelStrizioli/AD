@@ -43,7 +43,9 @@ export default function UsuarioLogueado() {
       </OpcionesCuenta>
       <Button
         title="Mis Listas"
-        onPress={() => navigation.navigate("listas")}
+        onPress={() =>
+          navigation.navigate("listas", { setLoading, setTextoLoading })
+        }
         buttonStyle={styles.btnCerrar}
         titleStyle={styles.TextoBoton}
       />

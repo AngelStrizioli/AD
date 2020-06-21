@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   View,
   Text,
@@ -16,16 +16,20 @@ import { useNavigation } from "@react-navigation/native";
 import ActionButton from "react-native-action-button";
 import Loading from "../Loading";
 const db = firebase.firestore(firebaseApp);
-export default function MostrarListas() {
+export default function MostrarListas(props) {
   const navigation = useNavigation();
   const [listas, setListas] = useState(false);
   const [uid, setUid] = useState();
   const [listass, setListass] = useState([]);
   const [reloadData, setReload] = useState(false);
-  const [loading, setisLoading] = useState(false);
+  //const [loading, setisLoading] = useState(false);
+  const { setLoading, setTextoLoading } = props.route.params;
+  console.log(setLoading);
 
   useEffect(() => {
-    setisLoading(true); //ojo
+    // setisLoading(true); //ojo
+    setLoading(true);
+    setTextoLoading("Obteniendo listas");
     const user = firebase.auth().currentUser.uid;
     setUid(user);
     const listas1 = db
@@ -43,9 +47,9 @@ export default function MostrarListas() {
             listass.push(doc.data());
           });
           setListas(true);
-          setisLoading(false);
         }
-        //  console.log(prueba);
+        // setisLoading(false);
+        setLoading(false);
       });
     console.log((error) => {
       console.log(error);
@@ -55,6 +59,7 @@ export default function MostrarListas() {
     navigation.navigate("listaSeleccionada", { lista: item });
   };
   const agregarLista = () => {
+    setLoading(true);
     var data = {
       usr_id: uid,
       peliculas: [
@@ -73,7 +78,8 @@ export default function MostrarListas() {
       .add(data)
       .then((ref) => {
         console.log("Se creo la nueva lista con ID: " + ref.id);
-        navigation.navigate("cuenta");
+        // navigation.navigate("cuenta");
+        setLoading(false);
       });
   };
   return (
@@ -90,7 +96,6 @@ export default function MostrarListas() {
         </TouchableHighlight>
       ))}
       <ActionButton onPress={() => agregarLista()}></ActionButton>
-      <Loading isVisible={loading} text="Obteniendo las listas " />
     </View>
   );
 }
