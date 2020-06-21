@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   boton: {
-    backgroundColor: "#03bcff",
+    backgroundColor: "#009688",
   },
   btnContainer: {
     width: "70%",

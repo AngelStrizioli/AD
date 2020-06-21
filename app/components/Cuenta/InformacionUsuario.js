@@ -9,7 +9,7 @@ import { AntDesign } from "@expo/vector-icons";
 
 export default function InformacionUsuario(props) {
   const {
-    infoUsuario: { uid, photoURL, displayName, email },
+    infoUsuario: { photoURL, uid, displayName, email },
     toastRef,
     setTextoLoading,
     setLoading,
@@ -76,11 +76,11 @@ export default function InformacionUsuario(props) {
         //  onAccessoryPress={cambiarFoto}
         containerStyle={styles.infoUsuarioAvatar}
         onPress={cambiarFoto}
-        source={{
-          uri: photoURL
-            ? photoURL
-            : require("../../../assets/img/original.jpg"),
-        }}
+        source={
+          photoURL
+            ? { uri: photoURL }
+            : require("../../../assets/img/original.jpg")
+        }
       />
       <View>
         <AntDesign

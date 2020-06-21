@@ -6,7 +6,9 @@ import Loading from "../../components/Loading";
 import * as firebase from "firebase";
 import InformacionUsuario from "../../components/Cuenta/InformacionUsuario";
 import OpcionesCuenta from "../../components/Cuenta/OpcionesCuenta";
+import { useNavigation } from "@react-navigation/native";
 export default function UsuarioLogueado() {
+  const navigation = useNavigation();
   const [infoUsuario, setInfoUsuario] = useState(null);
   const [loading, setLoading] = useState(false);
   const [textoLoading, setTextoLoading] = useState("");
@@ -40,6 +42,12 @@ export default function UsuarioLogueado() {
         {" "}
       </OpcionesCuenta>
       <Button
+        title="Mis Listas"
+        onPress={() => navigation.navigate("listas")}
+        buttonStyle={styles.btnCerrar}
+        titleStyle={styles.TextoBoton}
+      />
+      <Button
         title="Cerrar Sesion"
         onPress={() => firebase.auth().signOut()}
         buttonStyle={styles.btnCerrar}
@@ -61,13 +69,13 @@ const styles = StyleSheet.create({
     borderRadius: 0,
     backgroundColor: "#fff",
     borderTopWidth: 1,
-    borderTopColor: "#03bcff",
+    borderTopColor: "#009688",
     borderBottomWidth: 1,
-    borderBottomColor: "#03bcff",
+    borderBottomColor: "#009688",
     paddingTop: 10,
     paddingBottom: 10,
   },
   TextoBoton: {
-    color: "#03bcff",
+    color: "#009688",
   },
 });

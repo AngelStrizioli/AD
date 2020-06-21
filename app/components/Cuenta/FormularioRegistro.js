@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import { MaterialIcons, Feather } from "@expo/vector-icons";
 import { Input, Button } from "react-native-elements";
@@ -7,7 +7,9 @@ import { size, isEmpty } from "lodash";
 import * as firebase from "firebase";
 import { useNavigation } from "@react-navigation/native";
 import Loading from "../Loading";
-
+import { firebaseApp } from "../../utils/firebase";
+import "firebase/firestore";
+const db = firebase.firestore(firebaseApp);
 export default function FormularioRegistro(props) {
   const { toastRef } = props;
   const [hidePass, setHidePass] = useState(false);
@@ -15,7 +17,9 @@ export default function FormularioRegistro(props) {
   const [data, setData] = useState(valoresData);
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
-
+  useEffect(() => {
+    return () => {};
+  }, []);
   const onSubmit = () => {
     if (
       isEmpty(data.email) ||
@@ -38,7 +42,22 @@ export default function FormularioRegistro(props) {
               .auth()
               .createUserWithEmailAndPassword(data.email, data.password)
               .then(() => {
+                const user = firebase.auth().currentUser;
+                var uid = user.uid;
+                console.log(uid);
+                db.collection("usuarios")
+                  .doc(uid)
+                  .set({
+                    peliculasPuntuadas: [{}],
+                  });
+                /*  .then(() => {
+                    console.log("todo ok");
+                  })
+                  .catch((error) => {
+                    console.log(error);
+                  }); */
                 setLoading(false);
+
                 navigation.navigate("cuenta");
               })
               .catch(function (error) {
@@ -136,6 +155,6 @@ const styles = StyleSheet.create({
     width: "95%",
   },
   btnRegister: {
-    backgroundColor: "#03bcff",
+    backgroundColor: "#009688",
   },
 });
