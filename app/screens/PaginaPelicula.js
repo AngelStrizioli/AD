@@ -37,6 +37,7 @@ export default function PaginaPelicula(props) {
   const [listas, setListas] = useState(false);
   const [loading, setIsLoading] = useState(false);
   const [puntajesDePeli, setPuntajesDePeli] = useState([]);
+  const [estoy, setEstoy] = useState(false);
   useEffect(() => {
     console.log(item);
     setIsLoading(true);
@@ -85,6 +86,28 @@ export default function PaginaPelicula(props) {
         .catch((error) => {
           console.log("error" + error);
         });
+      const dataBusqueda = {
+        id: item.id,
+        imagen: item.imagen,
+        overview: item.overview,
+        release: item.release,
+        title: item.title,
+        vote_average: item.vote_average,
+      };
+      const aux2 = db
+        .collection("listas")
+        .where("peliculas", "array-contains", dataBusqueda)
+        .where("usr_id", "==", usuario.uid)
+        .get()
+        .then(function (querySnapshot) {
+          if (querySnapshot.empty) {
+          } else {
+            setEstoy(true);
+          }
+        })
+        .catch((error) => {
+          console.log("error" + error);
+        });
     } else {
       setIsLoading(false);
     }
@@ -111,6 +134,24 @@ export default function PaginaPelicula(props) {
     let arrUnion = agregarPeliculaALista.update({
       peliculas: firebase.firestore.FieldValue.arrayUnion(data),
     });
+    setEstoy(true);
+  };
+  const removerPeliLista = () => {
+    //aca falta decirle al usuario que lista es la que eleigio , por ahora solo va a haber una
+
+    let data = {
+      vote_average: item.vote_average,
+      id: item.id,
+      imagen: item.imagen,
+      title: item.title,
+      release: item.release,
+      overview: item.overview,
+    };
+    let removerPeliculaALista = db.collection("listas").doc(listass[0]); // ojo despues del.doc va ir la lista que el usuario eligio
+    let arrUnion = removerPeliculaALista.update({
+      peliculas: firebase.firestore.FieldValue.arrayRemove(data),
+    });
+    setEstoy(false);
   };
 
   return (
@@ -151,17 +192,35 @@ export default function PaginaPelicula(props) {
         <View style={styles.description}>
           {uid ? (
             <View style={styles.shareListIcons}>
-              <View style={styles.myListIcon}>
-                <TouchableOpacity onPress={() => agregarPeliLista()}>
-                  <FontAwesome
-                    style={styles.listIcon}
-                    name="check"
-                    color="#009688"
-                    size={35}
-                  />
-                </TouchableOpacity>
-                <Text style={styles.text}>Mi Lista</Text>
+              <View>
+                {console.log(estoy)}
+                {!estoy ? (
+                  <TouchableOpacity onPress={() => agregarPeliLista()}>
+                    <View style={styles.myListIcon}>
+                      <FontAwesome
+                        style={styles.listIcon}
+                        name="plus"
+                        color="#009688"
+                        size={35}
+                      />
+                      <Text style={styles.text}>Agregar peli</Text>
+                    </View>
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity onPress={() => removerPeliLista()}>
+                    <View style={styles.myListIcon}>
+                      <FontAwesome
+                        style={styles.listIcon}
+                        name="check"
+                        color="#009688"
+                        size={35}
+                      />
+                      <Text style={styles.text}>Peli agregada</Text>
+                    </View>
+                  </TouchableOpacity>
+                )}
               </View>
+
               <View style={styles.myShareIcon}>
                 <TouchableOpacity onPress={() => renderizarPuntuar()}>
                   <FontAwesome
