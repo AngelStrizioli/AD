@@ -84,6 +84,7 @@ export default function FormularioRegistro(props) {
             name="mail-outline"
             size={30}
             iconStyle={styles.iconRight}
+            color="#009688"
           />
         }
       />
@@ -97,7 +98,7 @@ export default function FormularioRegistro(props) {
           <Feather
             name={hidePass ? "eye" : "eye-off"}
             size={30}
-            color="black"
+            color="#009688"
             iconStyle={styles.iconRight}
             onPress={() => setHidePass(!hidePass)}
           />
@@ -113,7 +114,7 @@ export default function FormularioRegistro(props) {
           <Feather
             name={hidePass2 ? "eye" : "eye-off"}
             size={30}
-            color="black"
+            color="#009688"
             iconStyle={styles.iconRight}
             onPress={() => setHidePass2(!hidePass2)}
           />

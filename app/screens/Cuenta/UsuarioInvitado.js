@@ -2,15 +2,15 @@ import React from "react";
 import { View, StyleSheet, ScrollView, Text, Image } from "react-native";
 import { Button } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
+import { FontAwesome } from "@expo/vector-icons";
+
 export default function UsuarioInvitado() {
   const navigation = useNavigation();
   return (
     <ScrollView style={styles.viewBody} centerContent={true}>
-      <Image
-        source={require("../../../assets/img/usuario.png")}
-        style={styles.imagen}
-        resizeMode="contain"
-      ></Image>
+      <View style={styles.iconoUsuario}>
+        <FontAwesome name="user-circle" size={112} color="#009688" />
+      </View>
       <Text style={styles.titulo}> Consulta tu perfil</Text>
       <Text style={styles.textoDes}>
         Inicia sesion o registrate para poder puntuar,ver estrenos o buscar las
@@ -25,17 +25,16 @@ export default function UsuarioInvitado() {
         />
       </View>
     </ScrollView>
-  );
+  ); 
 }
 const styles = StyleSheet.create({
   viewBody: {
     marginLeft: 30,
     marginRight: 30,
   },
-  imagen: {
-    height: 200,
-    width: "100%",
-    marginBottom: 40,
+  iconoUsuario: {
+    alignItems: 'center',
+    marginBottom:'5%'
   },
   titulo: {
     fontWeight: "bold",

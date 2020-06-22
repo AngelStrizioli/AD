@@ -83,7 +83,7 @@ export default function FormularioChangePass(props) {
           <Feather
             name={mostrarClave ? "eye" : "eye-off"}
             size={30}
-            color="#ccc"
+            color="#009688"
             onPress={() => setmostrarClave(!mostrarClave)}
           />
         }
@@ -99,7 +99,7 @@ export default function FormularioChangePass(props) {
           <Feather
             name={mostrarClave ? "eye" : "eye-off"}
             size={30}
-            color="#ccc"
+            color="#009688"
             onPress={() => setmostrarClave(!mostrarClave)}
           />
         }
@@ -117,7 +117,7 @@ export default function FormularioChangePass(props) {
           <Feather
             name={mostrarClave ? "eye" : "eye-off"}
             size={30}
-            color="#ccc"
+            color="#009688"
             onPress={() => setmostrarClave(!mostrarClave)}
           />
         }
@@ -127,6 +127,7 @@ export default function FormularioChangePass(props) {
         title="Cambiar contraseña"
         style={styles.container}
         buttonStyle={styles.btn}
+        titleStyle={styles.TextoBoton}
         onPress={onSubmit}
         loading={loading}
       ></Button>
@@ -155,6 +156,19 @@ const styles = StyleSheet.create({
     width: "95%",
   },
   btn: {
-    backgroundColor: "#009688",
+    borderRadius: 15,
+    backgroundColor: "#fff",
+    borderTopWidth: 1,
+    borderTopColor: "#009688",
+    borderLeftColor:'#009688',
+    borderLeftWidth: 1,
+    borderRightColor:'#009688',
+    borderRightWidth: 1,
+    borderBottomWidth: 1,
+    borderBottomColor: "#009688",
+    marginLeft:'5%',
+  },
+  TextoBoton: {
+    color: "#009688",
   },
 });

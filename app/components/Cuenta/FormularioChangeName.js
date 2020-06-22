@@ -45,7 +45,7 @@ export default function FormularioChangeName(props) {
       <Input
         placeholder="Nombre y apellido"
         style={styles.input}
-        rightIcon={<Feather name="user" size={20} color="#ccc" />}
+        rightIcon={<Feather name="user" size={20} color="#009688" />}
         defaultValue={displayName || ""}
         onChange={(e) => setnuevoNombre(e.nativeEvent.text)}
         errorMessage={error}
@@ -54,6 +54,7 @@ export default function FormularioChangeName(props) {
         title="Cambiar nombre"
         containerStyle={styles.btnContainer}
         buttonStyle={styles.btn}
+        titleStyle={styles.TextoBoton}
         onPress={onSubmit}
         loading={isLoading}
       />
@@ -74,6 +75,18 @@ const styles = StyleSheet.create({
     width: "95%",
   },
   btn: {
-    backgroundColor: "#009688",
+    borderRadius: 15,
+    backgroundColor: "#fff",
+    borderTopWidth: 1,
+    borderTopColor: "#009688",
+    borderLeftColor:'#009688',
+    borderLeftWidth: 1,
+    borderRightColor:'#009688',
+    borderRightWidth: 1,
+    borderBottomWidth: 1,
+    borderBottomColor: "#009688",
+  },
+  TextoBoton: {
+    color: "#009688",
   },
 });

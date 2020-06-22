@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { ScrollView, Text, StyleSheet } from "react-native";
 import { Button } from "react-native-elements";
 import Toast from "react-native-easy-toast";
 import Loading from "../../components/Loading";
@@ -24,7 +24,7 @@ export default function UsuarioLogueado() {
   }, [recargaInfoUsuario]); //aray donde  le decimos qye cuando esto cambia que se actualice,si lo dejamos vacio se ejcuta una vez cuando el componente se monte
 
   return (
-    <View style={styles.info}>
+    <ScrollView style={styles.info} centerContent={true}>
       {infoUsuario && (
         <InformacionUsuario
           infoUsuario={infoUsuario}
@@ -57,7 +57,7 @@ export default function UsuarioLogueado() {
       />
       <Toast ref={toastRef} position="center" opacity={0.8} />
       <Loading text={textoLoading} isVisible={loading} />
-    </View>
+    </ScrollView>
   );
 }
 
@@ -65,13 +65,20 @@ const styles = StyleSheet.create({
   info: {
     minHeight: "100%",
     backgroundColor: "#f2f2f2",
+
   },
   btnCerrar: {
+    width:'70%',
+    marginLeft:'15%',
     marginTop: 30,
-    borderRadius: 0,
+    borderRadius: 15,
     backgroundColor: "#fff",
     borderTopWidth: 1,
     borderTopColor: "#009688",
+    borderLeftColor:'#009688',
+    borderLeftWidth: 1,
+    borderRightColor:'#009688',
+    borderRightWidth: 1,
     borderBottomWidth: 1,
     borderBottomColor: "#009688",
     paddingTop: 10,

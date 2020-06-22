@@ -3,16 +3,16 @@ import { View, Text, StyleSheet, Image } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import FormularioRegistro from "../../components/Cuenta/FormularioRegistro";
 import Toast from "react-native-easy-toast"
+import { FontAwesome } from "@expo/vector-icons";
+
 
 export default function Registro() {
   const toastRef=useRef();
   return (
-    <KeyboardAwareScrollView>
-      <Image
-        source={require("../../../assets/img/logo.png")}
-        resizeMode="contain"
-        style={styles.logo}
-      />
+    <KeyboardAwareScrollView style={styles.container} centerContent={true}>
+      <View style={styles.iconoUsuario}>
+        <FontAwesome name="user-circle" size={112} color="#009688" />
+      </View>
       <View style={styles.formVista}>
         <FormularioRegistro toastRef={toastRef} />
       </View>
@@ -21,10 +21,12 @@ export default function Registro() {
   );
 }
 const styles = StyleSheet.create({
-  logo: {
-    width: "100%",
-    height: 150,
-    marginTop: 20,
+  container:{
+    flex:1,
+  },
+  iconoUsuario: {
+    alignItems: 'center',
+    flex: 1,
   },
   formVista: {
     marginRight: 40,

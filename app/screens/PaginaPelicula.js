@@ -203,7 +203,7 @@ export default function PaginaPelicula(props) {
                         color="#009688"
                         size={35}
                       />
-                      <Text style={styles.text}>Agregar peli</Text>
+                      <Text style={styles.text}>Agregar película</Text>
                     </View>
                   </TouchableOpacity>
                 ) : (
@@ -215,7 +215,7 @@ export default function PaginaPelicula(props) {
                         color="#009688"
                         size={35}
                       />
-                      <Text style={styles.text}>Peli agregada</Text>
+                      <Text style={styles.text}>Película agregada</Text>
                     </View>
                   </TouchableOpacity>
                 )}
@@ -228,7 +228,6 @@ export default function PaginaPelicula(props) {
                     name="star-o"
                     color="#009688"
                     size={35}
-                    // onPress={() => renderizarPuntuar}
                   />
                 </TouchableOpacity>
                 <Text style={styles.text}>Puntuar</Text>
@@ -243,7 +242,7 @@ export default function PaginaPelicula(props) {
             <View style={styles.shareListIcons}>
               <View style={styles.myListIcon}>
                 <TouchableOpacity
-                  onPress={() => alert("Necesitas iniciar sesion ")}
+                  onPress={() => alert("Necesitas iniciar sesión para poder agregar una película a tu lista ")}
                 >
                   <FontAwesome
                     style={styles.listIcon}
@@ -256,14 +255,13 @@ export default function PaginaPelicula(props) {
               </View>
               <View style={styles.myShareIcon}>
                 <TouchableOpacity
-                  onPress={() => alert("Necesitas iniciar sesion ")}
+                  onPress={() => alert("Necesitas iniciar sesión para poder puntuar esta película")}
                 >
                   <FontAwesome
                     style={styles.shareIcon}
                     name="star-o"
                     color="#009688"
                     size={35}
-                    // onPress={() => renderizarPuntuar}
                   />
                 </TouchableOpacity>
                 <Text style={styles.text}>Puntuar</Text>
@@ -289,8 +287,6 @@ export default function PaginaPelicula(props) {
           </View>;
         })}
       </View>
-
-      <Loading isVisible={loading} text="Obteniendo datos pelicula " />
     </ScrollView>
   );
 }
@@ -342,7 +338,7 @@ const styles = StyleSheet.create({
   shareListIcons: {
     flexDirection: "row",
     marginVertical: 30,
-    marginLeft: "30%",
+    marginLeft: "25%",
   },
   listIcon: {
     height: 35,

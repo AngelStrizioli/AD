@@ -75,9 +75,10 @@ export default function FormularioPunteo(props) {
       </View>
 
       <Button
-        title="Enviar Califacion "
+        title="Enviar Calificación "
         containerStyle={styles.btncontainer}
         buttonStyle={styles.btn}
+        titleStyle={styles.TextoBoton}
         onPress={onSubmit}
       />
     </View>
@@ -85,7 +86,7 @@ export default function FormularioPunteo(props) {
 }
 const styles = StyleSheet.create({
   textAreaContainer: {
-    borderColor: "grey",
+    borderColor: "#009688",
     borderWidth: 1,
     padding: 5,
     marginTop: 20,
@@ -95,6 +96,20 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
   },
   btn: {
-    marginTop: 20,
+    marginTop:'3%',
+    borderRadius: 15,
+    backgroundColor: "#fff",
+    borderTopWidth: 1,
+    borderTopColor: "#009688",
+    borderLeftColor:'#009688',
+    borderLeftWidth: 1,
+    borderRightColor:'#009688',
+    borderRightWidth: 1,
+    borderBottomWidth: 1,
+    borderBottomColor: "#009688",
+  },
+  TextoBoton: {
+    color: "#009688",
+    marginBottom:'3%'
   },
 });

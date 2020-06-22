@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
   },
   icono: {
     position: "absolute",
-    left: -55,
-    top: -30,
+    left: -70,
+    top: -15,
   },
 });
