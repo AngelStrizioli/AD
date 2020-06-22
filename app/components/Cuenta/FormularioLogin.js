@@ -56,6 +56,7 @@ export default function FormularioLogin(props) {
             name="mail-outline"
             size={30}
             iconStyle={styles.iconRight}
+            color="#009688"
           />
         }
       />
@@ -69,7 +70,7 @@ export default function FormularioLogin(props) {
           <Feather
             name={hidePass ? "eye" : "eye-off"}
             size={30}
-            color="black"
+            color="#009688"
             iconStyle={styles.iconRight}
             onPress={() => setHidePass(!hidePass)}
           />
