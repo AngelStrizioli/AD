@@ -200,7 +200,6 @@ export default function PaginaPelicula(props) {
         <View style={styles.description}>
           {uid ? (
             <View style={styles.shareListIcons}>
-              <View>
                 <TouchableOpacity onPress={() => renderizarListas()}>
                   <View style={styles.myListIcon}>
                     <FontAwesome
@@ -222,17 +221,16 @@ export default function PaginaPelicula(props) {
                     )}
                   </View>
                 </TouchableOpacity>
-                <View>
                   {estoy ? (
                     <TouchableOpacity onPress={() => removerPeliLista()}>
-                      <View style={styles.myListIcon}>
+                      <View style={styles.myRemoveIcon}>
                         <FontAwesome
-                          style={styles.removerPeli}
+                          style={styles.removeIcon}
                           name="minus-square-o"
                           color="#009688"
                           size={35}
                         />
-                        <Text style={styles.text}>Remover pelicula lista</Text>
+                        <Text style={styles.text}>Remover película</Text>
                         {renderizarRemoverLista && (
                           <Modal
                             isVisible={isVisibleRemover}
@@ -247,29 +245,26 @@ export default function PaginaPelicula(props) {
                   ) : (
                     <View />
                   )}
-                </View>
-              </View>
-
-              <View style={styles.myShareIcon}>
-                <TouchableOpacity onPress={() => renderizarPuntuar()}>
+              <TouchableOpacity onPress={() => renderizarPuntuar()}>
+                <View style={styles.myShareIcon}>
                   <FontAwesome
                     style={styles.shareIcon}
                     name="star-o"
                     color="#009688"
                     size={35}
-                  />
+                  />  
+                  <Text style={styles.text}>Puntuar</Text>
+                  {renderizarPunteo && (
+                    <Modal
+                      isVisible={isVisiblePuntuar}
+                      setIsVisible={setIsVisiblePuntuar}
+                      color={"white"}
+                    >
+                      {renderizarPunteo}
+                    </Modal>
+                    )}
+                  </View>
                 </TouchableOpacity>
-                <Text style={styles.text}>Puntuar</Text>
-                {renderizarPunteo && (
-                  <Modal
-                    isVisible={isVisiblePuntuar}
-                    setIsVisible={setIsVisiblePuntuar}
-                    color={"white"}
-                  >
-                    {renderizarPunteo}
-                  </Modal>
-                )}
-              </View>
             </View>
           ) : (
             <View style={styles.shareListIcons}>
@@ -380,7 +375,7 @@ const styles = StyleSheet.create({
   shareListIcons: {
     flexDirection: "row",
     marginVertical: 30,
-    marginLeft: "25%",
+    marginLeft: "5%",
   },
   listIcon: {
     height: 35,
@@ -388,16 +383,26 @@ const styles = StyleSheet.create({
   shareIcon: {
     height: 35,
   },
+  removeIcon: {
+    height: 35,
+  },
   myListIcon: {
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    marginRight: 30,
+    marginRight: '4%'
   },
   myShareIcon: {
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
+    marginRight: '4%'
+  },
+  myRemoveIcon: {
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: '4%'
   },
   description: {
     marginVertical: 10,
@@ -428,8 +433,5 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     color: "#34495e",
-  },
-  removerPeli: {
-    marginLeft: "5%",
   },
 });
