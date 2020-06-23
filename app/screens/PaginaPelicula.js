@@ -44,6 +44,7 @@ export default function PaginaPelicula(props) {
   const [loading, setIsLoading] = useState(false);
   const [puntajesDePeli, setPuntajesDePeli] = useState([]);
   const [estoy, setEstoy] = useState(false);
+  const [listasEnLaQueEstoy, setListasEnLasQueEstoy] = useState([]);
 
   useEffect(() => {
     // console.log(item);
@@ -109,6 +110,9 @@ export default function PaginaPelicula(props) {
         .then(function (querySnapshot) {
           if (querySnapshot.empty) {
           } else {
+            querySnapshot.forEach(function (doc) {
+              listasEnLaQueEstoy.push(doc.id);
+            });
             setEstoy(true);
           }
         })
@@ -157,7 +161,11 @@ export default function PaginaPelicula(props) {
     });
     setEstoy(false); */
     setRenderizarRemoverLista(
-      <FormularioRemoverPeli setIsVisible={setIsVisibleRemover} item={item} />
+      <FormularioRemoverPeli
+        setIsVisible={setIsVisibleRemover}
+        item={item}
+        listasEnLaQueEstoy={listasEnLaQueEstoy}
+      />
     );
     setIsVisibleRemover(true);
   };

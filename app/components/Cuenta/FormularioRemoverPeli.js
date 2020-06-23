@@ -16,19 +16,34 @@ import RNPickerSelect from "react-native-picker-select";
 const db = firebase.firestore(firebaseApp);
 
 export default function FormularioRemoverPeli(props) {
-  const { setIsVisible, setEstoy, item } = props;
+  const { setIsVisible, setEstoy, item, listasEnLaQueEstoy } = props;
   const [uid, setUid] = useState();
   const [selectedValue, setSelectedValue] = useState(0);
   const [i, setI] = useState(0);
+
   // en algun momento tengo que hacer el setIsVisible(false);
 
   useEffect(() => {
     const user = firebase.auth().currentUser.uid;
     setUid(user);
-    console.log("asdahdsuduauhsd");
   }, []);
 
   const onSubmit = (index) => {
+    console.log(listasEnLaQueEstoy[index]);
+    let data = {
+      vote_average: item.vote_average,
+      id: item.id,
+      imagen: item.imagen,
+      title: item.title,
+      release: item.release,
+      overview: item.overview,
+    };
+    let removerPeliculaALista = db
+      .collection("listas")
+      .doc(listasEnLaQueEstoy[index]); // ojo despues del.doc va ir la lista que el usuario eligio
+    let arrRemove = removerPeliculaALista.update({
+      peliculas: firebase.firestore.FieldValue.arrayRemove(data),
+    });
     setIsVisible(false);
   };
   return (
@@ -39,8 +54,17 @@ export default function FormularioRemoverPeli(props) {
           style={{ backgroundColor: "white", width: "70%" }}
           onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
         >
-          <Picker.Item label="Java" value="java" />
-          <Picker.Item label="JavaScript" value="js" />
+          {listasEnLaQueEstoy.length > 0 ? (
+            listasEnLaQueEstoy.map((item, id) => (
+              <Picker.Item
+                label={"Lista numero " + (id + 1)}
+                value={id}
+                style={styles.textAreaContainer}
+              />
+            ))
+          ) : (
+            <Text> No hay nada</Text>
+          )}
         </Picker>
         <Button
           title="Remover de esta lista "
