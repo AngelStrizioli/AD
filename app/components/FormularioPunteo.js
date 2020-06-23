@@ -16,6 +16,7 @@ export default function FormularioPunteo(props) {
   const [review, setReview] = useState("El usuario no dejo ningun comentario");
   const [raiting, setRating] = useState(5);
   const [uid, setUid] = useState();
+  console.log(setIsVisible);
   // en algun momento tengo que hacer el setIsVisible(false);
 
   useEffect(() => {
@@ -96,20 +97,20 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
   },
   btn: {
-    marginTop:'3%',
+    marginTop: "3%",
     borderRadius: 15,
     backgroundColor: "#fff",
     borderTopWidth: 1,
     borderTopColor: "#009688",
-    borderLeftColor:'#009688',
+    borderLeftColor: "#009688",
     borderLeftWidth: 1,
-    borderRightColor:'#009688',
+    borderRightColor: "#009688",
     borderRightWidth: 1,
     borderBottomWidth: 1,
     borderBottomColor: "#009688",
   },
   TextoBoton: {
     color: "#009688",
-    marginBottom:'3%'
+    marginBottom: "3%",
   },
 });

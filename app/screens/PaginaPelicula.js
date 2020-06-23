@@ -6,6 +6,7 @@ import {
   ScrollView,
   Dimensions,
   ImageBackground,
+  ViewComponent,
 } from "react-native";
 import { Rating, Card } from "react-native-elements";
 import { FontAwesome } from "@expo/vector-icons";
@@ -22,24 +23,30 @@ const { width, height } = Dimensions.get("window");
 import Loading from "../components/Loading";
 import TabViewEpisode from "./TabViewEpisode";
 import PuntuacionUsuario from "./PuntuacionUsuario";
+import FormularioAgregarPeli from "../components/Cuenta/FormularioAgregarPeli";
+import FormularioRemoverPeli from "../components/Cuenta/FormularioRemoverPeli";
 
 function Separator() {
   return <View style={styles.separator} />;
 }
-
 export default function PaginaPelicula(props) {
   const navigation = useNavigation();
   const item = props.route.params.item;
-  const [renderizar, setRenderizar] = useState(null);
-  const [isVisible, setIsVisible] = useState(false);
+  const [renderizarLista, setRenderizarLista] = useState(null);
+  const [renderizarRemoverLista, setRenderizarRemoverLista] = useState(null);
+  const [renderizarPunteo, setRenderizarPunteo] = useState(null);
+  const [isVisibleLista, setIsVisibleLista] = useState(false);
+  const [isVisibleRemover, setIsVisibleRemover] = useState(false);
+  const [isVisiblePuntuar, setIsVisiblePuntuar] = useState(false);
   const [uid, setUid] = useState(null);
   const [listass, setListass] = useState([]);
   const [listas, setListas] = useState(false);
   const [loading, setIsLoading] = useState(false);
   const [puntajesDePeli, setPuntajesDePeli] = useState([]);
   const [estoy, setEstoy] = useState(false);
+
   useEffect(() => {
-    console.log(item);
+    // console.log(item);
     setIsLoading(true);
     const usuario = firebase.auth().currentUser;
 
@@ -114,32 +121,29 @@ export default function PaginaPelicula(props) {
   }, []);
 
   const renderizarPuntuar = () => {
-    setRenderizar(
-      <FormularioPunteo setIsVisible={setIsVisible} idPelicula={item.id} />
+    setRenderizarPunteo(
+      <FormularioPunteo
+        setIsVisible={setIsVisiblePuntuar}
+        idPelicula={item.id}
+      />
     );
-    setIsVisible(true);
+    setIsVisiblePuntuar(true);
   };
-  const agregarPeliLista = () => {
-    //aca falta decirle al usuario que lista es la que eleigio , por ahora solo va a haber una
-    console.log(listass[0]);
-    let data = {
-      vote_average: item.vote_average,
-      id: item.id,
-      imagen: item.imagen,
-      title: item.title,
-      release: item.release,
-      overview: item.overview,
-    };
-    let agregarPeliculaALista = db.collection("listas").doc(listass[0]); // ojo despues del.doc va ir la lista que el usuario eligio
-    let arrUnion = agregarPeliculaALista.update({
-      peliculas: firebase.firestore.FieldValue.arrayUnion(data),
-    });
-    setEstoy(true);
+
+  const renderizarListas = () => {
+    setRenderizarLista(
+      <FormularioAgregarPeli
+        listass={listass}
+        setIsVisible={setIsVisibleLista}
+        item={item}
+      />
+    );
+    setIsVisibleLista(true);
   };
   const removerPeliLista = () => {
     //aca falta decirle al usuario que lista es la que eleigio , por ahora solo va a haber una
 
-    let data = {
+    /*   let data = {
       vote_average: item.vote_average,
       id: item.id,
       imagen: item.imagen,
@@ -151,7 +155,11 @@ export default function PaginaPelicula(props) {
     let arrUnion = removerPeliculaALista.update({
       peliculas: firebase.firestore.FieldValue.arrayRemove(data),
     });
-    setEstoy(false);
+    setEstoy(false); */
+    setRenderizarRemoverLista(
+      <FormularioRemoverPeli setIsVisible={setIsVisibleRemover} item={item} />
+    );
+    setIsVisibleRemover(true);
   };
 
   return (
@@ -193,32 +201,53 @@ export default function PaginaPelicula(props) {
           {uid ? (
             <View style={styles.shareListIcons}>
               <View>
-                {console.log(estoy)}
-                {!estoy ? (
-                  <TouchableOpacity onPress={() => agregarPeliLista()}>
-                    <View style={styles.myListIcon}>
-                      <FontAwesome
-                        style={styles.listIcon}
-                        name="plus"
-                        color="#009688"
-                        size={35}
-                      />
-                      <Text style={styles.text}>Agregar película</Text>
-                    </View>
-                  </TouchableOpacity>
-                ) : (
-                  <TouchableOpacity onPress={() => removerPeliLista()}>
-                    <View style={styles.myListIcon}>
-                      <FontAwesome
-                        style={styles.listIcon}
-                        name="check"
-                        color="#009688"
-                        size={35}
-                      />
-                      <Text style={styles.text}>Película agregada</Text>
-                    </View>
-                  </TouchableOpacity>
-                )}
+                <TouchableOpacity onPress={() => renderizarListas()}>
+                  <View style={styles.myListIcon}>
+                    <FontAwesome
+                      style={styles.listIcon}
+                      name="plus"
+                      color="#009688"
+                      size={35}
+                    />
+
+                    <Text style={styles.text}>Agregar película</Text>
+                    {renderizarLista && (
+                      <Modal
+                        isVisible={isVisibleLista}
+                        setIsVisible={setIsVisibleLista}
+                        color={"transparent"}
+                      >
+                        {renderizarLista}
+                      </Modal>
+                    )}
+                  </View>
+                </TouchableOpacity>
+                <View>
+                  {estoy ? (
+                    <TouchableOpacity onPress={() => removerPeliLista()}>
+                      <View style={styles.myListIcon}>
+                        <FontAwesome
+                          style={styles.removerPeli}
+                          name="minus-square-o"
+                          color="#009688"
+                          size={35}
+                        />
+                        <Text style={styles.text}>Remover pelicula lista</Text>
+                        {renderizarRemoverLista && (
+                          <Modal
+                            isVisible={isVisibleRemover}
+                            setIsVisible={setIsVisibleRemover}
+                            color={"transparent"}
+                          >
+                            {renderizarRemoverLista}
+                          </Modal>
+                        )}
+                      </View>
+                    </TouchableOpacity>
+                  ) : (
+                    <View />
+                  )}
+                </View>
               </View>
 
               <View style={styles.myShareIcon}>
@@ -231,9 +260,13 @@ export default function PaginaPelicula(props) {
                   />
                 </TouchableOpacity>
                 <Text style={styles.text}>Puntuar</Text>
-                {renderizar && (
-                  <Modal isVisible={isVisible} setIsVisible={setIsVisible}>
-                    {renderizar}
+                {renderizarPunteo && (
+                  <Modal
+                    isVisible={isVisiblePuntuar}
+                    setIsVisible={setIsVisiblePuntuar}
+                    color={"white"}
+                  >
+                    {renderizarPunteo}
                   </Modal>
                 )}
               </View>
@@ -242,7 +275,11 @@ export default function PaginaPelicula(props) {
             <View style={styles.shareListIcons}>
               <View style={styles.myListIcon}>
                 <TouchableOpacity
-                  onPress={() => alert("Necesitas iniciar sesión para poder agregar una película a tu lista ")}
+                  onPress={() =>
+                    alert(
+                      "Necesitas iniciar sesión para poder agregar una película a tu lista "
+                    )
+                  }
                 >
                   <FontAwesome
                     style={styles.listIcon}
@@ -255,7 +292,11 @@ export default function PaginaPelicula(props) {
               </View>
               <View style={styles.myShareIcon}>
                 <TouchableOpacity
-                  onPress={() => alert("Necesitas iniciar sesión para poder puntuar esta película")}
+                  onPress={() =>
+                    alert(
+                      "Necesitas iniciar sesión para poder puntuar esta película"
+                    )
+                  }
                 >
                   <FontAwesome
                     style={styles.shareIcon}
@@ -270,6 +311,7 @@ export default function PaginaPelicula(props) {
           )}
         </View>
       </View>
+
       <Separator> </Separator>
       <View>
         {puntajesDePeli.map((item, id) => {
@@ -386,5 +428,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     color: "#34495e",
+  },
+  removerPeli: {
+    marginLeft: "5%",
   },
 });

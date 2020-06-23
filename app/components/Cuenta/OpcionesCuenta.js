@@ -77,7 +77,11 @@ export default function OpcionesCuenta(props) {
         />
       ))}
       {renderizar && (
-        <Modal isVisible={mostrarModal} setIsVisible={setMostrarModal}>
+        <Modal
+          isVisible={mostrarModal}
+          setIsVisible={setMostrarModal}
+          color={"white"}
+        >
           {renderizar}
         </Modal>
       )}
