@@ -65,19 +65,18 @@ const styles = StyleSheet.create({
   info: {
     minHeight: "100%",
     backgroundColor: "#f2f2f2",
-
   },
   btnCerrar: {
-    width:'70%',
-    marginLeft:'15%',
+    width: "70%",
+    marginLeft: "15%",
     marginTop: 30,
     borderRadius: 15,
     backgroundColor: "#fff",
     borderTopWidth: 1,
     borderTopColor: "#009688",
-    borderLeftColor:'#009688',
+    borderLeftColor: "#009688",
     borderLeftWidth: 1,
-    borderRightColor:'#009688',
+    borderRightColor: "#009688",
     borderRightWidth: 1,
     borderBottomWidth: 1,
     borderBottomColor: "#009688",
